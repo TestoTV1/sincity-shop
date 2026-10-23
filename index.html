@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sin City Shop</title>
+<meta name="description" content="Coins und Extras für Sin City Roleplay. Bezahlung und Auslieferung über Tebex.">
+<meta name="theme-color" content="#120b22">
+<link rel="icon" type="image/png" href="bilder/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="hintergrund" aria-hidden="true"></div>
+
+<header class="kopf">
+  <div class="konto">
+    <button class="login" id="login" type="button">Login</button>
+    <span class="angemeldet" id="angemeldet" hidden>
+      <span id="angemeldet-name"></span>
+      <button class="login klein" id="abmelden" type="button">Abmelden</button>
+    </span>
+  </div>
+  <a class="kopf-logo" href="#start" aria-label="Sin City Roleplay, zur Startseite">
+    <img src="bilder/schriftzug.webp" alt="Sin City Roleplay" width="1000" height="364">
+  </a>
+  <nav class="symbole" id="symbole" aria-label="Kategorien"></nav>
+</header>
+
+<div class="hinweis-leiste" id="hinweis" role="status" hidden></div>
+
+<div class="rahmen">
+  <aside class="seite">
+    <nav class="kasten menue" aria-label="Menü">
+      <a href="#start" data-ziel="start">Startseite</a>
+      <div id="menue-kategorien"></div>
+      <a href="#hilfe" data-ziel="hilfe">Hilfe</a>
+      <a href="https://discord.gg/sincity-rp" target="_blank" rel="noopener">Discord</a>
+      <a href="https://sincity-rp.de/impressum.html">Impressum</a>
+      <a href="https://checkout.tebex.io/terms" target="_blank" rel="noopener">Tebex Terms &amp; Conditions</a>
+    </nav>
+
+    <section class="kasten widget korb" aria-labelledby="korb-titel">
+      <h2 class="widget-titel" id="korb-titel">Warenkorb</h2>
+      <ul class="korb-liste" id="korb-liste"></ul>
+      <p class="korb-leer" id="korb-leer">Noch leer.</p>
+      <div class="korb-summe" id="korb-summe" hidden><span>Gesamt</span><strong id="korb-betrag"></strong></div>
+      <form class="korb-code" id="creator-form" hidden>
+        <label for="creator-code">Creator-Code</label>
+        <div><input id="creator-code" name="code" autocomplete="off" placeholder="Code eingeben"><button class="knopf zweit" type="submit">OK</button></div>
+      </form>
+      <button class="knopf voll" id="zur-kasse" type="button" hidden>Zur Kasse</button>
+    </section>
+
+    <section class="kasten widget beliebt" id="beliebt" aria-labelledby="beliebt-titel" hidden>
+      <h2 class="widget-titel" id="beliebt-titel">Beliebt</h2>
+      <button class="beliebt-bild" id="beliebt-bild" type="button" aria-label="Details ansehen"><img id="beliebt-img" src="" alt=""></button>
+      <p class="beliebt-name" id="beliebt-name"></p>
+      <p class="beliebt-preis" id="beliebt-preis"></p>
+      <button class="knopf voll" id="beliebt-kaufen" type="button">In den Warenkorb</button>
+    </section>
+
+    <section class="kasten widget ziel" id="ziel" aria-labelledby="ziel-titel">
+      <h2 class="widget-titel" id="ziel-titel">Community-Ziel</h2>
+      <img class="ziel-bild" id="ziel-bild" src="bilder/kokosnuss.webp" alt="">
+      <p class="ziel-name" id="ziel-name"></p>
+      <div class="ziel-balken" role="progressbar" aria-labelledby="ziel-name" aria-valuemin="0" aria-valuemax="100" id="ziel-balken"><span id="ziel-fuellung"></span></div>
+      <p class="ziel-prozent" id="ziel-prozent"></p>
+    </section>
+
+    <section class="kasten widget gekauft" id="gekauft" aria-labelledby="gekauft-titel">
+      <h2 class="widget-titel" id="gekauft-titel">Kürzlich gekauft</h2>
+      <ul class="gekauft-liste" id="gekauft-liste"></ul>
+    </section>
+  </aside>
+
+  <main class="inhalt" id="inhalt" tabindex="-1">
+    <section id="ansicht-start">
+     <div class="held">
+      <div class="held-text">
+        <p class="held-ueber">Offizieller Shop</p>
+        <h1>Willkommen in Sin&nbsp;City</h1>
+        <p>Coins, VIP und Extras für deinen Account. Sicher bezahlt über Tebex, automatisch im Spiel.</p>
+        <div class="held-knoepfe">
+          <a class="knopf" href="#kat-3479336">Coins ansehen</a>
+          <a class="knopf leise" href="#hilfe">So funktioniert's</a>
+        </div>
+      </div>
+     </div>
+     <div class="kasten text mittig">
+      <p><strong>Willkommen auf <span class="marke">Sin City Roleplay</span>!</strong></p>
+      <p>Hier bekommst du <strong>Coins</strong> und <strong>Extras</strong> für deinen Account.</p>
+      <p>Mit deiner Unterstützung decken wir die Serverkosten und bringen regelmäßig neue Skripte, Maps und Events.</p>
+      <p>Uns liegt am Herzen, dass alles freiwillig bleibt: Niemand wird benachteiligt, nur weil er nichts kauft.</p>
+      <p class="abstand"><strong>SIN CITY ROLEPLAY</strong> IS NOT APPROVED, SPONSORED, OR ENDORSED BY ROCKSTAR GAMES.</p>
+      <p><strong>SIN CITY ROLEPLAY</strong> IST NICHT VON ROCKSTAR GAMES GENEHMIGT, GESPONSERT ODER UNTERSTÜTZT.</p>
+      <div class="links-text">
+        <h2>Rückgabebedingungen</h2>
+        <p>Alle Pakete sind digitale Inhalte und werden direkt nach der Zahlung bereitgestellt. Mit dem Kauf stimmst du zu, dass die Lieferung sofort beginnt, dein Widerrufsrecht erlischt damit.</p>
+        <p>Nach dem Kauf löst du deine Transaktions-ID sofort im Spiel ein, wie das geht, steht unter <a href="#hilfe">Hilfe</a>. Gibt es ein Problem, öffne mit deinem Kaufnachweis ein Ticket in unserem Discord, wir kümmern uns so schnell wie möglich darum.</p>
+      </div>
+     </div>
+    </section>
+
+    <section id="ansicht-kategorie" hidden>
+      <div class="kasten text kat-text" id="kat-text"></div>
+      <div class="pakete" id="pakete"></div>
+    </section>
+
+    <section class="kasten text" id="ansicht-hilfe" hidden>
+      <h1>Hilfe</h1>
+      <h2>Wie kaufe ich?</h2>
+      <p>Klick bei einem Paket auf „In den Warenkorb“. Beim ersten Mal meldest du dich einmal mit deinem FiveM-Konto (Cfx.re) an, damit der Kauf deinem Account zugeordnet wird. Danach geht es über „Zur Kasse“ zum Bezahlen bei Tebex.</p>
+      <h2>Wie bekomme ich meine Coins?</h2>
+      <p>Nach dem Kauf schickt dir Tebex eine E-Mail mit deiner Transaktions-ID (tbx-…).</p>
+      <ul>
+        <li><strong>Coins:</strong> im Spiel F4 drücken, links „Code einlösen“ wählen, die ID eintragen und auf „Nutzen“ klicken.</li>
+        <li><strong>Charakter-Slot:</strong> bei der Charakterauswahl auf den gesperrten Slot klicken und die ID eintragen.</li>
+      </ul>
+      <p>Du musst beim Kauf nicht online sein. Es kann bis zu 5 Minuten dauern, bis die ID einlösbar ist.</p>
+      <h2>Was ist ein Creator-Code?</h2>
+      <p>Mit dem Code eines Content Creators unterstützt du ihn bei deinem Kauf. Für dich ändert sich am Preis nichts.</p>
+      <h2>Es hat nicht geklappt</h2>
+      <p>Öffne im Discord ein Ticket und halte deine Transaktions-ID bereit.</p>
+      <a class="knopf" href="https://discord.gg/sincity-rp" target="_blank" rel="noopener">Zum Discord</a>
+    </section>
+
+    <p class="laden" id="laden">Shop wird geladen …</p>
+  </main>
+</div>
+
+<dialog class="dialog" id="details" aria-labelledby="details-titel">
+  <div class="dialog-kopf">
+    <h2 id="details-titel"></h2>
+    <button class="knopf leise schliessen" type="button" data-schliessen aria-label="Schließen">✕</button>
+  </div>
+  <div class="dialog-inhalt" id="details-inhalt"></div>
+  <div class="dialog-fuss">
+    <strong id="details-preis"></strong>
+    <button class="knopf" type="button" id="details-kaufen">In den Warenkorb</button>
+  </div>
+</dialog>
+
+<footer class="fuss">
+  <div class="fuss-zeile">
+    <p>© 2026 SinCity RP. All Rights Reserved. We do not have affiliation with any real world brands.</p>
+    <ul class="zahlarten" aria-label="Zahlarten">
+      <li><img src="bilder/zahlung/k_paypal.svg" alt="PayPal" width="48" height="30"></li>
+      <li><img src="bilder/zahlung/k_applepay.svg" alt="Apple Pay" width="48" height="30"></li>
+      <li><img src="bilder/zahlung/k_googlepay.svg" alt="Google Pay" width="48" height="30"></li>
+      <li><img src="bilder/zahlung/k_mastercard.svg" alt="Mastercard" width="48" height="30"></li>
+      <li><img src="bilder/zahlung/k_visa.svg" alt="Visa" width="48" height="30"></li>
+      <li><img src="bilder/zahlung/k_amex.svg" alt="American Express" width="30" height="30"></li>
+    </ul>
+  </div>
+  <div class="fuss-zeile klein">
+    <a class="tebex-logo" href="https://www.tebex.io/" target="_blank" rel="noopener"><img src="bilder/zahlung/tebex.svg" alt="Tebex" width="48" height="25"></a>
+    <p class="tebex-text">This website's checkout process is owned &amp; operated by Tebex Limited, who handle product fulfilment, billing support and refunds.</p>
+    <nav aria-label="Rechtliches">
+      <a href="https://sincity-rp.de/impressum.html">Impressum</a>
+      <a href="https://sincity-rp.de/datenschutz.html">Datenschutz</a>
+      <a href="https://checkout.tebex.io/terms" target="_blank" rel="noopener">Terms &amp; Conditions</a>
+      <a href="https://checkout.tebex.io/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

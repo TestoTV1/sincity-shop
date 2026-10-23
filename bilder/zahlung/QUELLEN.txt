@@ -1,0 +1,4 @@
+Zahlungslogos (applepay, googlepay, visa, americanexpress, paypal): Simple Icons 16.35.0, CC0 (https://simpleicons.org).
+Eingefaerbt und als Kacheln gebaut in k_*.svg. Mastercard-Kreise selbst gezeichnet.
+tebex.svg: offizielles Tebex-Logo von www.tebex.io (fuer den Pflicht-Hinweis "checkout ... operated by Tebex Limited").
+Die Markenlogos zeigen nur, womit bezahlt werden kann. Die Marken gehoeren ihren Inhabern.
