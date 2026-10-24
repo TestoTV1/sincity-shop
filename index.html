@@ -15,71 +15,33 @@
 <body>
 <div class="hintergrund" aria-hidden="true"></div>
 
-<header class="kopf">
-  <div class="konto">
+<header class="leiste">
+  <div class="leiste-innen">
+    <a class="leiste-logo" href="#start" aria-label="Sin City Shop, zur Startseite"><img src="bilder/kokosnuss.webp" alt="" width="40" height="40"><span>SinCity <b>Shop</b></span></a>
+    <nav class="leiste-nav menue" aria-label="Menü">
+      <a href="#start" data-ziel="start">Start</a>
+      <div id="menue-kategorien"></div>
+      <a href="#hilfe" data-ziel="hilfe">Hilfe</a>
+      <a href="https://discord.gg/sincity-rp" target="_blank" rel="noopener">Discord</a>
+    </nav>
+    <div class="konto">
     <button class="login" id="login" type="button">Login</button>
     <span class="angemeldet" id="angemeldet" hidden>
       <span id="angemeldet-name"></span>
       <button class="login klein" id="abmelden" type="button">Abmelden</button>
     </span>
+  
+      <button class="korb-knopf" id="korb-knopf" type="button" aria-label="Warenkorb öffnen" aria-controls="schublade"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.4l2.3 10.6a1.6 1.6 0 0 0 1.6 1.3h8.1a1.6 1.6 0 0 0 1.6-1.2L21 8H6.4"/><circle cx="9.6" cy="19.6" r="1.4"/><circle cx="17.2" cy="19.6" r="1.4"/></svg><span class="korb-zahl" id="korb-zahl" hidden>0</span></button>
+    </div>
   </div>
-  <a class="kopf-logo" href="#start" aria-label="Sin City Roleplay, zur Startseite">
-    <img src="bilder/schriftzug.webp" alt="Sin City Roleplay" width="1000" height="364">
-  </a>
-  <nav class="symbole" id="symbole" aria-label="Kategorien"></nav>
 </header>
 
 <div class="hinweis-leiste" id="hinweis" role="status" hidden></div>
 
-<div class="rahmen">
-  <aside class="seite">
-    <nav class="kasten menue" aria-label="Menü">
-      <a href="#start" data-ziel="start">Startseite</a>
-      <div id="menue-kategorien"></div>
-      <a href="#hilfe" data-ziel="hilfe">Hilfe</a>
-      <a href="https://discord.gg/sincity-rp" target="_blank" rel="noopener">Discord</a>
-      <a href="https://sincity-rp.de/impressum.html">Impressum</a>
-      <a href="https://checkout.tebex.io/terms" target="_blank" rel="noopener">Tebex Terms &amp; Conditions</a>
-    </nav>
-
-    <section class="kasten widget korb" aria-labelledby="korb-titel">
-      <h2 class="widget-titel" id="korb-titel">Warenkorb</h2>
-      <ul class="korb-liste" id="korb-liste"></ul>
-      <p class="korb-leer" id="korb-leer">Noch leer.</p>
-      <div class="korb-summe" id="korb-summe" hidden><span>Gesamt</span><strong id="korb-betrag"></strong></div>
-      <form class="korb-code" id="creator-form" hidden>
-        <label for="creator-code">Creator-Code</label>
-        <div><input id="creator-code" name="code" autocomplete="off" placeholder="Code eingeben"><button class="knopf zweit" type="submit">OK</button></div>
-      </form>
-      <button class="knopf voll" id="zur-kasse" type="button" hidden>Zur Kasse</button>
-    </section>
-
-    <section class="kasten widget beliebt" id="beliebt" aria-labelledby="beliebt-titel" hidden>
-      <h2 class="widget-titel" id="beliebt-titel">Beliebt</h2>
-      <button class="beliebt-bild" id="beliebt-bild" type="button" aria-label="Details ansehen"><img id="beliebt-img" src="" alt=""></button>
-      <p class="beliebt-name" id="beliebt-name"></p>
-      <p class="beliebt-preis" id="beliebt-preis"></p>
-      <button class="knopf voll" id="beliebt-kaufen" type="button">In den Warenkorb</button>
-    </section>
-
-    <section class="kasten widget ziel" id="ziel" aria-labelledby="ziel-titel">
-      <h2 class="widget-titel" id="ziel-titel">Community-Ziel</h2>
-      <img class="ziel-bild" id="ziel-bild" src="bilder/kokosnuss.webp" alt="">
-      <p class="ziel-name" id="ziel-name"></p>
-      <div class="ziel-balken" role="progressbar" aria-labelledby="ziel-name" aria-valuemin="0" aria-valuemax="100" id="ziel-balken"><span id="ziel-fuellung"></span></div>
-      <p class="ziel-prozent" id="ziel-prozent"></p>
-    </section>
-
-    <section class="kasten widget gekauft" id="gekauft" aria-labelledby="gekauft-titel">
-      <h2 class="widget-titel" id="gekauft-titel">Kürzlich gekauft</h2>
-      <ul class="gekauft-liste" id="gekauft-liste"></ul>
-    </section>
-  </aside>
-
-  <main class="inhalt" id="inhalt" tabindex="-1">
-    <section id="ansicht-start">
-     <div class="held">
-      <div class="held-text">
+<main class="inhalt" id="inhalt" tabindex="-1">
+  <section id="ansicht-start">
+    <div class="buehne">
+      <div class="held-text"><img class="buehne-logo" src="bilder/schriftzug.webp" alt="Sin City Roleplay" width="1000" height="364">
         <p class="held-ueber">Offizieller Shop</p>
         <h1>Willkommen in Sin&nbsp;City</h1>
         <p>Coins, VIP und Extras für deinen Account. Sicher bezahlt über Tebex, automatisch im Spiel.</p>
@@ -88,8 +50,30 @@
           <a class="knopf leise" href="#hilfe">So funktioniert's</a>
         </div>
       </div>
-     </div>
-     <div class="kasten text mittig">
+      <section class="kasten widget beliebt" id="beliebt" aria-labelledby="beliebt-titel" hidden>
+      <h2 class="widget-titel" id="beliebt-titel">Beliebt</h2>
+      <button class="beliebt-bild" id="beliebt-bild" type="button" aria-label="Details ansehen"><img id="beliebt-img" src="" alt=""></button>
+      <p class="beliebt-name" id="beliebt-name"></p>
+      <p class="beliebt-preis" id="beliebt-preis"></p>
+      <button class="knopf voll" id="beliebt-kaufen" type="button">In den Warenkorb</button>
+    </section>
+    </div>
+    <h2 class="abschnitt">Kategorien</h2>
+    <nav class="symbole" id="symbole" aria-label="Kategorien"></nav>
+    <div class="streifen">
+      <section class="kasten widget ziel" id="ziel" aria-labelledby="ziel-titel">
+      <h2 class="widget-titel" id="ziel-titel">Community-Ziel</h2>
+      <img class="ziel-bild" id="ziel-bild" src="bilder/kokosnuss.webp" alt="">
+      <p class="ziel-name" id="ziel-name"></p>
+      <div class="ziel-balken" role="progressbar" aria-labelledby="ziel-name" aria-valuemin="0" aria-valuemax="100" id="ziel-balken"><span id="ziel-fuellung"></span></div>
+      <p class="ziel-prozent" id="ziel-prozent"></p>
+    </section>
+      <section class="kasten widget gekauft" id="gekauft" aria-labelledby="gekauft-titel">
+      <h2 class="widget-titel" id="gekauft-titel">Kürzlich gekauft</h2>
+      <ul class="gekauft-liste" id="gekauft-liste"></ul>
+    </section>
+    </div>
+    <div class="kasten text mittig">
       <p><strong>Willkommen auf <span class="marke">Sin City Roleplay</span>!</strong></p>
       <p>Hier bekommst du <strong>Coins</strong> und <strong>Extras</strong> für deinen Account.</p>
       <p>Mit deiner Unterstützung decken wir die Serverkosten und bringen regelmäßig neue Skripte, Maps und Events.</p>
@@ -101,15 +85,14 @@
         <p>Alle Pakete sind digitale Inhalte und werden direkt nach der Zahlung bereitgestellt. Mit dem Kauf stimmst du zu, dass die Lieferung sofort beginnt, dein Widerrufsrecht erlischt damit.</p>
         <p>Nach dem Kauf löst du deine Transaktions-ID sofort im Spiel ein, wie das geht, steht unter <a href="#hilfe">Hilfe</a>. Gibt es ein Problem, öffne mit deinem Kaufnachweis ein Ticket in unserem Discord, wir kümmern uns so schnell wie möglich darum.</p>
       </div>
-     </div>
-    </section>
+  </section>
 
-    <section id="ansicht-kategorie" hidden>
+  <section id="ansicht-kategorie" hidden>
       <div class="kasten text kat-text" id="kat-text"></div>
       <div class="pakete" id="pakete"></div>
     </section>
 
-    <section class="kasten text" id="ansicht-hilfe" hidden>
+  <section class="kasten text" id="ansicht-hilfe" hidden>
       <h1>Hilfe</h1>
       <h2>Wie kaufe ich?</h2>
       <p>Klick bei einem Paket auf „In den Warenkorb“. Beim ersten Mal meldest du dich einmal mit deinem FiveM-Konto (Cfx.re) an, damit der Kauf deinem Account zugeordnet wird. Danach geht es über „Zur Kasse“ zum Bezahlen bei Tebex.</p>
@@ -127,9 +110,23 @@
       <a class="knopf" href="https://discord.gg/sincity-rp" target="_blank" rel="noopener">Zum Discord</a>
     </section>
 
-    <p class="laden" id="laden">Shop wird geladen …</p>
-  </main>
-</div>
+  <p class="laden" id="laden">Shop wird geladen …</p>
+</main>
+
+<aside class="schublade" id="schublade" aria-label="Warenkorb" aria-hidden="true">
+  <div class="schublade-kopf"><h2 id="korb-titel">Warenkorb</h2><button class="knopf leise schliessen" id="schublade-zu" type="button" aria-label="Warenkorb schließen">✕</button></div>
+  <section class="korb" aria-labelledby="korb-titel">
+    <ul class="korb-liste" id="korb-liste"></ul>
+      <p class="korb-leer" id="korb-leer">Noch leer.</p>
+      <div class="korb-summe" id="korb-summe" hidden><span>Gesamt</span><strong id="korb-betrag"></strong></div>
+      <form class="korb-code" id="creator-form" hidden>
+        <label for="creator-code">Creator-Code</label>
+        <div><input id="creator-code" name="code" autocomplete="off" placeholder="Code eingeben"><button class="knopf zweit" type="submit">OK</button></div>
+      </form>
+      <button class="knopf voll" id="zur-kasse" type="button" hidden>Zur Kasse</button>
+  </section>
+</aside>
+<div class="schleier" id="schleier" hidden></div>
 
 <dialog class="dialog" id="details" aria-labelledby="details-titel">
   <div class="dialog-kopf">
@@ -168,5 +165,29 @@
 </footer>
 
 <script src="app.js"></script>
+<script>
+// Fassung 4: Warenkorb als Schublade. Zaehler am Knopf, beim Hinzufuegen geht sie kurz auf.
+(function () {
+  var s = document.getElementById('schublade'), schleier = document.getElementById('schleier');
+  var liste = document.getElementById('korb-liste'), zahl = document.getElementById('korb-zahl');
+  function auf(an) {
+    s.classList.toggle('offen', an); schleier.hidden = !an; s.setAttribute('aria-hidden', an ? 'false' : 'true');
+    document.getElementById('korb-knopf').setAttribute('aria-expanded', an ? 'true' : 'false');
+  }
+  document.getElementById('korb-knopf').addEventListener('click', function () { auf(!s.classList.contains('offen')); });
+  document.getElementById('schublade-zu').addEventListener('click', function () { auf(false); });
+  schleier.addEventListener('click', function () { auf(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && s.classList.contains('offen')) auf(false); });
+  var vorher = 0;
+  function zaehlen() {
+    var n = liste.children.length;
+    zahl.textContent = n; zahl.hidden = !n;
+    if (n > vorher && vorher !== -1) auf(true);
+    vorher = n;
+  }
+  vorher = -1; zaehlen(); vorher = liste.children.length;
+  new MutationObserver(zaehlen).observe(liste, { childList: true });
+})();
+</script>
 </body>
 </html>
