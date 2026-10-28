@@ -129,7 +129,7 @@ function saleBannerBauen(ziel, nurKategorie) {
   links.querySelector('.sale-titel').textContent = 'Bis zu −' + max + ' %';
   links.querySelector('.sale-unter').textContent = nurKategorie
     ? 'Auf alle Pakete in dieser Kategorie. Danach gilt wieder der normale Preis.'
-    : 'Auf Fraktions-Gebäude, Kleidung, Liverys, Fahrzeuge und neue Extras.';
+    : 'Auf Coins, VIP, Fraktion, Kleidung und Extras. Danach gilt wieder der normale Preis.';
   const uhr = document.createElement('div');
   uhr.className = 'sale-uhr';
   uhr.setAttribute('aria-label', 'Endet am 11.11. um 23:59 Uhr');
