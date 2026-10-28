@@ -178,6 +178,20 @@ async function katalogLaden() {
     .sort((a, b) => platz(a) - platz(b));
 }
 
+// 28.10.2026 (Jason): Zusammengehoeriges hintereinander, in jeder Gruppe vom kleinen zum grossen.
+// Pakete, die hier nicht stehen (Coins, Gutscheine, neue), kommen danach nach Preis.
+const PAKET_REIHENFOLGE = [
+  'Fraktions-Gebäude S', 'Fraktions-Gebäude M', 'Fraktions-Gebäude L', 'Gebäude-Wechsel',
+  'Fraktions-Kleidung S', 'Fraktions-Kleidung XL', 'Custom-Livery', 'Fuhrpark +5', 'Custom-Fahrzeug',
+  'VIP 30 Tage', 'VIP 90 Tage', 'Starter-Bundle: VIP 30 Tage + 110 Coins', 'Boss-Bundle: VIP 30 Tage + 650 Coins',
+  'Zusätzlicher Charakter-Slot', 'Charakter-Transfer', 'Wunschkennzeichen', 'Wunschnummer', 'Namensänderung',
+  'Fahrzeug-Ummeldung', 'Privat-Kleidung',
+];
+function paketRang(p) {
+  const i = PAKET_REIHENFOLGE.indexOf(p.name);
+  return i < 0 ? 1000 : i;
+}
+
 function paketFinden(id) {
   for (const k of kategorien) {
     const p = (k.packages || []).find((x) => x.id === id);
@@ -242,8 +256,7 @@ function kategorieZeigen(k) {
   $('kat-text').hidden = !k.description;
   const box = $('pakete');
   box.textContent = '';
-  // 28.10.2026 (Jason): billigstes zuerst, teuerstes am Ende
-  const liste = [...k.packages].sort((a, b) => preis(a) - preis(b));
+  const liste = [...k.packages].sort((a, b) => paketRang(a) - paketRang(b) || preis(a) - preis(b));
   for (const p of liste) {
     const zeile = document.createElement('div');
     zeile.className = 'paket';
