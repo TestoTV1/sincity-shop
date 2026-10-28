@@ -239,7 +239,9 @@ function kategorieZeigen(k) {
   $('kat-text').hidden = !k.description;
   const box = $('pakete');
   box.textContent = '';
-  for (const p of k.packages) {
+  // 28.10.2026 (Jason): billigstes zuerst, teuerstes am Ende
+  const liste = [...k.packages].sort((a, b) => preis(a) - preis(b));
+  for (const p of liste) {
     const zeile = document.createElement('div');
     zeile.className = 'paket';
 
