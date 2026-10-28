@@ -181,7 +181,7 @@ async function katalogLaden() {
 // 28.10.2026 (Jason): Zusammengehoeriges hintereinander, in jeder Gruppe vom kleinen zum grossen.
 // Pakete, die hier nicht stehen (Coins, Gutscheine, neue), kommen danach nach Preis.
 const PAKET_REIHENFOLGE = [
-  'Fraktions-Gebäude S', 'Fraktions-Gebäude M', 'Fraktions-Gebäude L', 'Gebäude-Wechsel',
+  'Fraktions-Gebäude S', 'Fraktions-Gebäude M', 'Fraktions-Gebäude L', 'Gebäude-Wechsel', 'Mapping-Aufpreis',
   'Custom-Livery', 'Fuhrpark +5', 'Custom-Fahrzeug',
   // 28.10.2026: Reiter Kleidung (Preise nach Designer-Liste)
   'Fraktions-Kleidung S', 'Fraktions-Kleidung M', 'Fraktions-Kleidung L', 'MC-Paket S', 'MC-Paket M', 'MC-Paket L',
@@ -190,6 +190,7 @@ const PAKET_REIHENFOLGE = [
   'Zusätzlicher Charakter-Slot', 'Charakter-Transfer', 'Wunschkennzeichen', 'Wunschnummer', 'Namensänderung',
   'Fahrzeug-Ummeldung', 'Privat-Fahrzeug',
 ];
+const NUR_ZUSATZ = ['Mapping-Aufpreis'];
 function paketRang(p) {
   const i = PAKET_REIHENFOLGE.indexOf(p.name);
   return i < 0 ? 1000 : i;
@@ -244,8 +245,10 @@ function symboleBauen() {
     const name = document.createElement('strong');
     name.textContent = k.name;
     const info = document.createElement('small');
-    const ab = Math.min(...k.packages.map(preis));
-    info.textContent = k.packages.length + (k.packages.length === 1 ? ' Paket' : ' Pakete') + ' · ab ' + euro(ab);
+    // 28.10.2026: Mapping-Aufpreis (5 €) ist nur ein Zusatz zu den Gebaeuden, zaehlt nicht als Paket und nicht fuers "ab"
+    const echte = k.packages.filter((p) => !NUR_ZUSATZ.includes(p.name));
+    const ab = Math.min(...echte.map(preis));
+    info.textContent = echte.length + (echte.length === 1 ? ' Paket' : ' Pakete') + ' · ab ' + euro(ab);
     text.append(name, info);
     const pfeil = document.createElement('span');
     pfeil.className = 'symbol-pfeil';
