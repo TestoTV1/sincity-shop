@@ -76,21 +76,88 @@ function altpreis(p) {
   return preis(p) * (p.base_price + p.discount) / p.base_price;
 }
 
-// Preis in ein Element schreiben, bei Rabatt mit durchgestrichenem Normalpreis und Prozent-Chip
+const prozent = (p) => Math.round((1 - preis(p) / altpreis(p)) * 100);
+
+// Preis in ein Element schreiben. Bei Rabatt: alter Preis durchgestrichen, neuer Preis gross, darunter "Du sparst ..."
 function preisSetzen(el, p) {
   el.textContent = '';
   const alt = altpreis(p);
-  if (alt) {
-    const s = document.createElement('s');
-    s.className = 'altpreis';
-    s.textContent = euro(alt);
-    const chip = document.createElement('span');
-    chip.className = 'rabatt';
-    chip.textContent = '−' + Math.round((1 - preis(p) / alt) * 100) + ' %';
-    el.append(s, ' ', euro(preis(p)), ' ', chip);
+  el.classList.toggle('im-sale', !!alt);
+  if (!alt) { el.textContent = euro(preis(p)); return; }
+  const s = document.createElement('s');
+  s.className = 'altpreis';
+  s.textContent = euro(alt);
+  const neu = document.createElement('span');
+  neu.className = 'neupreis';
+  neu.textContent = euro(preis(p));
+  const spar = document.createElement('span');
+  spar.className = 'ersparnis';
+  spar.textContent = 'Du sparst ' + euro(alt - preis(p));
+  el.append(s, neu, spar);
+}
+
+// ---------- Sale-Banner mit Countdown (28.10.2026: Launch-Wochen) ----------
+// Die Headless-API liefert kein Enddatum, deshalb steht es hier. Nach Ablauf verschwindet der Banner von selbst.
+const SALE = { name: 'Launch-Wochen', ende: new Date('2026-11-11T23:59:00+01:00') };
+
+function salePakete() {
+  return kategorien.flatMap((k) => (k.packages || []).filter((p) => altpreis(p)).map((p) => ({ p, k })));
+}
+
+function restzeit() {
+  const ms = SALE.ende - Date.now();
+  if (ms <= 0) return null;
+  const t = Math.floor(ms / 86400000), h = Math.floor(ms / 3600000) % 24, m = Math.floor(ms / 60000) % 60, s = Math.floor(ms / 1000) % 60;
+  return [[t, 'Tage'], [h, 'Std'], [m, 'Min'], [s, 'Sek']];
+}
+
+function saleBannerBauen(ziel, nurKategorie) {
+  const box = $(ziel);
+  if (!box) return;
+  const liste = salePakete().filter((x) => !nurKategorie || x.k.id === nurKategorie.id);
+  const rest = restzeit();
+  box.hidden = !liste.length || !rest;
+  clearInterval(box._takt);
+  if (box.hidden) return;
+  const max = Math.max(...liste.map((x) => prozent(x.p)));
+  const erste = liste[0].k;
+  box.innerHTML = '';
+  const links = document.createElement('div');
+  links.className = 'sale-text';
+  links.innerHTML = '<span class="sale-ueber"></span><strong class="sale-titel"></strong><span class="sale-unter"></span>';
+  links.querySelector('.sale-ueber').textContent = SALE.name + ' · nur für kurze Zeit';
+  links.querySelector('.sale-titel').textContent = 'Bis zu −' + max + ' %';
+  links.querySelector('.sale-unter').textContent = nurKategorie
+    ? 'Auf alle Pakete in dieser Kategorie. Danach gilt wieder der normale Preis.'
+    : 'Auf Fraktions-Gebäude, Kleidung, Liverys, Fahrzeuge und neue Extras.';
+  const uhr = document.createElement('div');
+  uhr.className = 'sale-uhr';
+  uhr.setAttribute('aria-label', 'Endet am 11.11. um 23:59 Uhr');
+  const zellen = rest.map(([, wort]) => {
+    const z = document.createElement('span');
+    z.className = 'sale-zelle';
+    z.innerHTML = '<b></b><small></small>';
+    z.querySelector('small').textContent = wort;
+    uhr.append(z);
+    return z.querySelector('b');
+  });
+  box.append(links, uhr);
+  if (!nurKategorie) {
+    const a = document.createElement('a');
+    a.className = 'knopf sale-knopf';
+    a.href = '#kat-' + erste.id;
+    a.textContent = 'Jetzt sichern';
+    box.append(a);
   } else {
-    el.textContent = euro(preis(p));
+    box.classList.add('ohne-knopf');
   }
+  const ticken = () => {
+    const r = restzeit();
+    if (!r) { box.hidden = true; clearInterval(box._takt); return; }
+    r.forEach(([zahl], i) => { zellen[i].textContent = String(zahl).padStart(2, '0'); });
+  };
+  ticken();
+  box._takt = setInterval(ticken, 1000);
 }
 
 async function beschaeftigt(knopf, arbeit) {
@@ -144,6 +211,15 @@ function symboleBauen() {
     img.src = (teuerstes && teuerstes.image) || 'bilder/kokosnuss.webp';
     img.alt = '';
     a.append(img, document.createTextNode(k.name));
+    // 28.10.2026: Kategorie mit Rabatt bekommt ein Prozent-Schild
+    const sale = k.packages.filter((p) => altpreis(p));
+    if (sale.length) {
+      a.classList.add('im-sale');
+      const ecke = document.createElement('span');
+      ecke.className = 'rabatt-ecke';
+      ecke.textContent = '−' + Math.max(...sale.map(prozent)) + ' %';
+      a.append(ecke);
+    }
     box.append(a);
   }
 }
@@ -158,6 +234,7 @@ function beliebtBauen() {
 }
 
 function kategorieZeigen(k) {
+  saleBannerBauen('sale-kat', k);
   $('kat-text').innerHTML = sauber(k.description) || '';
   $('kat-text').hidden = !k.description;
   const box = $('pakete');
@@ -170,6 +247,16 @@ function kategorieZeigen(k) {
     img.src = p.image || 'bilder/kokosnuss.webp';
     img.alt = '';
     img.loading = 'lazy';
+    const bild = document.createElement('div');
+    bild.className = 'paket-bild';
+    bild.append(img);
+    if (altpreis(p)) {
+      zeile.classList.add('im-sale');
+      const ecke = document.createElement('span');
+      ecke.className = 'rabatt-ecke';
+      ecke.textContent = '−' + prozent(p) + ' %';
+      bild.append(ecke);
+    }
 
     const name = document.createElement('button');
     name.type = 'button';
@@ -185,10 +272,10 @@ function kategorieZeigen(k) {
     const kaufen = document.createElement('button');
     kaufen.type = 'button';
     kaufen.className = 'knopf';
-    kaufen.textContent = 'In den Warenkorb';
+    kaufen.textContent = altpreis(p) ? 'Jetzt sichern' : 'In den Warenkorb';
     kaufen.addEventListener('click', () => beschaeftigt(kaufen, () => hinzu(p.id)));
 
-    zeile.append(img, name, pr, kaufen);
+    zeile.append(bild, name, pr, kaufen);
     box.append(zeile);
   }
 }
@@ -423,6 +510,7 @@ window.addEventListener('hashchange', () => { zeigen(); $('inhalt').focus({ prev
     menueBauen();
     symboleBauen();
     beliebtBauen();
+    saleBannerBauen('sale-start', null);
     zeigen();
     korbZeigen();
     $('laden').hidden = true;

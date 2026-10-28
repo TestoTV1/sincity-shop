@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=202610280515">
 </head>
 <body>
 <div class="hintergrund" aria-hidden="true"></div>
@@ -40,6 +40,7 @@
 
 <main class="inhalt" id="inhalt" tabindex="-1">
   <section id="ansicht-start">
+    <div class="sale-banner start" id="sale-start" hidden></div>
     <div class="buehne">
       <div class="held-text"><img class="buehne-logo" src="bilder/schriftzug.webp" alt="Sin City Roleplay" width="1000" height="364">
         <p class="held-ueber">Offizieller Shop</p>
@@ -88,6 +89,7 @@
   </section>
 
   <section id="ansicht-kategorie" hidden>
+      <div class="sale-banner" id="sale-kat" hidden></div>
       <div class="kasten text kat-text" id="kat-text"></div>
       <div class="pakete" id="pakete"></div>
     </section>
@@ -164,7 +166,7 @@
   </div>
 </footer>
 
-<script src="app.js"></script>
+<script src="app.js?v=202610280515"></script>
 <script>
 // Fassung 4: Warenkorb als Schublade. Zaehler am Knopf, beim Hinzufuegen geht sie kurz auf.
 (function () {

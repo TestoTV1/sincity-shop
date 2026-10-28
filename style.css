@@ -634,7 +634,68 @@ a { color: inherit; }
   .streifen .gekauft-liste { grid-template-columns: 1fr; }
 }
 
-/* 28.10.2026: Sale (Launch-Wochen) - alter Preis durchgestrichen, Prozent-Chip im Marken-Verlauf */
-.altpreis { color: rgba(255, 255, 255, .5); font-weight: 500; font-size: .8em; margin-right: 2px; }
-.rabatt { display: inline-block; vertical-align: middle; margin-left: 4px; padding: 2px 7px; border-radius: 6px; font-size: 12px; font-weight: 800;
-  color: #fff; background: linear-gradient(90deg, #ff8a3d 0%, #ff3d7f 42%, #e62ad6 72%, #a74dff 100%); letter-spacing: .02em; }
+/* 28.10.2026: Sale (Launch-Wochen). Banner mit Countdown, Preisblock mit Ersparnis, Prozent-Ecke am Bild.
+   Farben nur aus der Marke (Orange -> Pink -> Magenta -> Lila), dunkle Flaechen lila, kein Braun. */
+.sale-banner {
+  position: relative; overflow: hidden;
+  display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 24px;
+  margin-bottom: 22px; padding: 20px 26px 20px 32px;
+  border-radius: 14px; border: 1px solid #ff3d7f80;
+  background: linear-gradient(110deg, #3a1260f2 0%, #2a0f4ae6 45%, #4a1050e6 100%);
+  box-shadow: 0 0 0 1px #a74dff33 inset, 0 12px 40px -12px #ff3d7f80;
+}
+.sale-banner.ohne-knopf { grid-template-columns: 1fr auto; }
+.sale-banner[hidden] { display: none; }
+.sale-banner::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 6px; background: var(--verlauf); }
+.sale-banner::after {
+  content: ""; position: absolute; top: -60%; right: -10%; width: 45%; height: 220%;
+  background: radial-gradient(closest-side, #ff3d7f40, transparent 70%); pointer-events: none;
+}
+.sale-banner.start { margin: 18px auto 18px; max-width: var(--breite); }
+.symbol.im-sale { position: relative; border-color: #ff3d7f80; box-shadow: 0 8px 26px -14px #ff3d7f; }
+.symbol .rabatt-ecke { top: -9px; left: auto; right: 12px; transform: rotate(4deg); }
+.sale-text { display: grid; gap: 4px; position: relative; z-index: 1; }
+.sale-ueber { font: 700 12px/1 'Poppins', sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--rosa); }
+.sale-titel {
+  font: 900 34px/1.05 'Poppins', sans-serif; letter-spacing: -.01em;
+  background: var(--verlauf); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.sale-unter { color: var(--text-2); font-size: 14px; }
+.sale-uhr { display: flex; gap: 8px; position: relative; z-index: 1; }
+.sale-zelle {
+  display: grid; justify-items: center; min-width: 58px; padding: 8px 6px 6px;
+  border-radius: 10px; background: #140a26cc; border: 1px solid #a74dff55;
+}
+.sale-zelle b { font: 800 24px/1 'Poppins', sans-serif; color: #fff; font-variant-numeric: tabular-nums; }
+.sale-zelle small { margin-top: 4px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--leise); }
+.sale-knopf { position: relative; z-index: 1; padding: 14px 28px; font-size: 16px; white-space: nowrap; }
+
+/* Preisblock */
+.preis.im-sale, #details-preis.im-sale, .beliebt-preis.im-sale { display: inline-grid; justify-items: end; gap: 1px; line-height: 1.1; }
+.beliebt-preis.im-sale { justify-items: start; }
+.altpreis { color: #ffffff80; font-size: 14px; font-weight: 500; text-decoration-color: var(--pink); text-decoration-thickness: 2px; }
+.neupreis {
+  font: 900 24px/1.1 'Poppins', sans-serif;
+  background: var(--verlauf); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.ersparnis { font-size: 12px; font-weight: 700; color: var(--rosa); }
+
+/* Paketzeile im Sale */
+.paket-bild { position: relative; width: 72px; height: 72px; }
+.paket.im-sale { border-color: #ff3d7f66; box-shadow: 0 0 0 1px #a74dff22 inset, 0 8px 30px -14px #ff3d7f99; }
+.paket.im-sale::before { opacity: 1; }
+.rabatt-ecke {
+  position: absolute; top: -8px; left: -8px; padding: 3px 7px; border-radius: 7px;
+  font: 800 11px/1 'Poppins', sans-serif; color: #fff; background: var(--verlauf);
+  box-shadow: 0 4px 12px #ff3d7f80; transform: rotate(-8deg);
+}
+.paket.im-sale .knopf { padding: 13px 26px; font-size: 15px; box-shadow: 0 0 24px #ff3d7f73; }
+
+@media (max-width: 720px) {
+  .sale-banner, .sale-banner.ohne-knopf { grid-template-columns: 1fr; gap: 14px; padding: 18px 18px 18px 24px; }
+  .sale-titel { font-size: 28px; }
+  .sale-zelle { min-width: 0; flex: 1; }
+  .sale-knopf { text-align: center; }
+  .paket-bild { width: 56px; height: 56px; }
+  .neupreis { font-size: 20px; }
+}
