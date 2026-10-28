@@ -171,7 +171,7 @@ async function beschaeftigt(knopf, arbeit) {
 async function katalogLaden() {
   const liste = await api(`/accounts/${TOKEN}/categories?includePackages=1`);
   // 28.10.2026 (Jason): feste Reihenfolge im Menue und bei den Kacheln, neue Kategorien hinten an
-  const REIHENFOLGE = ['Coins', 'Fraktion', 'VIP', 'Extras', 'Gutscheine'];
+  const REIHENFOLGE = ['Coins', 'Fraktion', 'Kleidung', 'VIP', 'Extras', 'Gutscheine'];
   const platz = (k) => { const i = REIHENFOLGE.indexOf(k.name); return i < 0 ? 100 + (k.order ?? 0) : i; };
   kategorien = (liste || [])
     .filter((k) => (k.packages || []).length)
@@ -182,10 +182,13 @@ async function katalogLaden() {
 // Pakete, die hier nicht stehen (Coins, Gutscheine, neue), kommen danach nach Preis.
 const PAKET_REIHENFOLGE = [
   'Fraktions-Gebäude S', 'Fraktions-Gebäude M', 'Fraktions-Gebäude L', 'Gebäude-Wechsel',
-  'Fraktions-Kleidung S', 'Fraktions-Kleidung XL', 'Custom-Livery', 'Fuhrpark +5', 'Custom-Fahrzeug',
+  'Custom-Livery', 'Fuhrpark +5', 'Custom-Fahrzeug',
+  // 28.10.2026: Reiter Kleidung (Preise nach Designer-Liste)
+  'Fraktions-Kleidung S', 'Fraktions-Kleidung M', 'Fraktions-Kleidung L', 'MC-Paket S', 'MC-Paket M', 'MC-Paket L',
+  'Privat-Kleidung', 'Premade-Kette', 'Custom-Kette',
   'VIP 30 Tage', 'VIP 90 Tage', 'Starter-Bundle: VIP 30 Tage + 110 Coins', 'Boss-Bundle: VIP 30 Tage + 650 Coins',
   'Zusätzlicher Charakter-Slot', 'Charakter-Transfer', 'Wunschkennzeichen', 'Wunschnummer', 'Namensänderung',
-  'Fahrzeug-Ummeldung', 'Privat-Kleidung', 'Privat-Fahrzeug',
+  'Fahrzeug-Ummeldung', 'Privat-Fahrzeug',
 ];
 function paketRang(p) {
   const i = PAKET_REIHENFOLGE.indexOf(p.name);
