@@ -153,7 +153,8 @@ a { color: inherit; }
   flex: 1;
 }
 .seite { display: grid; gap: 24px; }
-.inhalt { min-width: 0; outline: none; }
+.inhalt { min-width: 0; outline: none; flex: 1 0 auto; } /* 28.10.: Footer bleibt unten, auch bei kurzen Seiten */
+.fuss { margin-top: auto; }
 
 .kasten {
   border: 1px solid var(--kante);

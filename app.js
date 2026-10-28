@@ -170,9 +170,12 @@ async function beschaeftigt(knopf, arbeit) {
 // ---------- Katalog ----------
 async function katalogLaden() {
   const liste = await api(`/accounts/${TOKEN}/categories?includePackages=1`);
+  // 28.10.2026 (Jason): feste Reihenfolge im Menue und bei den Kacheln, neue Kategorien hinten an
+  const REIHENFOLGE = ['Coins', 'Fraktion', 'VIP', 'Extras', 'Gutscheine'];
+  const platz = (k) => { const i = REIHENFOLGE.indexOf(k.name); return i < 0 ? 100 + (k.order ?? 0) : i; };
   kategorien = (liste || [])
     .filter((k) => (k.packages || []).length)
-    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    .sort((a, b) => platz(a) - platz(b));
 }
 
 function paketFinden(id) {
