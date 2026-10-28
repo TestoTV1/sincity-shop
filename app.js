@@ -215,22 +215,43 @@ function menueBauen() {
   }
 }
 
-// Kategorie-Symbole oben: Bild vom teuersten Paket der Kategorie, bevorzugt eins, dessen Name mit der Kategorie
+// Kategorie-Bild: teuerstes Paket der Kategorie, bevorzugt eins, dessen Name mit der Kategorie
 // beginnt (bei VIP also "VIP 90 Tage" statt dem Boss-Bundle)
+function kategorieBild(k) {
+  const passend = k.packages.filter((p) => p.name.toLowerCase().startsWith(k.name.toLowerCase()));
+  const teuerstes = [...(passend.length ? passend : k.packages)].sort((a, b) => preis(b) - preis(a))[0];
+  return (teuerstes && teuerstes.image) || 'bilder/kokosnuss.webp';
+}
+
+// Fassung 5: Kacheln mit grossem Bild, darunter Name, Anzahl und Ab-Preis
 function symboleBauen() {
   const box = $('symbole');
   box.textContent = '';
   for (const k of kategorien) {
-    const passend = k.packages.filter((p) => p.name.toLowerCase().startsWith(k.name.toLowerCase()));
-    const teuerstes = [...(passend.length ? passend : k.packages)].sort((a, b) => preis(b) - preis(a))[0];
     const a = document.createElement('a');
     a.className = 'symbol';
     a.href = '#kat-' + k.id;
     a.dataset.ziel = 'kat-' + k.id;
+    const bild = document.createElement('span');
+    bild.className = 'symbol-bild';
     const img = document.createElement('img');
-    img.src = (teuerstes && teuerstes.image) || 'bilder/kokosnuss.webp';
+    img.src = kategorieBild(k);
     img.alt = '';
-    a.append(img, document.createTextNode(k.name));
+    img.loading = 'lazy';
+    bild.append(img);
+    const text = document.createElement('span');
+    text.className = 'symbol-text';
+    const name = document.createElement('strong');
+    name.textContent = k.name;
+    const info = document.createElement('small');
+    const ab = Math.min(...k.packages.map(preis));
+    info.textContent = k.packages.length + (k.packages.length === 1 ? ' Paket' : ' Pakete') + ' · ab ' + euro(ab);
+    text.append(name, info);
+    const pfeil = document.createElement('span');
+    pfeil.className = 'symbol-pfeil';
+    pfeil.setAttribute('aria-hidden', 'true');
+    pfeil.innerHTML = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    a.append(bild, text, pfeil);
     // 28.10.2026: Kategorie mit Rabatt bekommt ein Prozent-Schild
     const sale = k.packages.filter((p) => altpreis(p));
     if (sale.length) {
@@ -238,10 +259,56 @@ function symboleBauen() {
       const ecke = document.createElement('span');
       ecke.className = 'rabatt-ecke';
       ecke.textContent = '−' + Math.max(...sale.map(prozent)) + ' %';
-      a.append(ecke);
+      bild.append(ecke);
     }
     box.append(a);
   }
+}
+
+// Fassung 5: Bilder hinter der Sale-Karte auf der Buehne. Im Sale drei weitere Angebote, die nicht schon bei den
+// Top-Angeboten stehen (deren 3D-Motive sehen auch angeschnitten gut aus), sonst je ein Bild der ersten drei Kategorien.
+function buehneBauen() {
+  const box = $('buehne-bilder');
+  box.textContent = '';
+  const oben = new Set(topAngebote(4).map((p) => p.id));
+  const spar = (p) => altpreis(p) - preis(p);
+  let bilder = salePakete().map((x) => x.p).filter((p) => !oben.has(p.id) && p.image)
+    .sort((a, b) => spar(b) - spar(a)).slice(0, 3).map((p) => p.image);
+  if (bilder.length < 3) bilder = kategorien.slice(0, 3).map(kategorieBild);
+  bilder.forEach((src, i) => {
+    const img = document.createElement('img');
+    img.className = 'schau-' + (i + 1);
+    img.src = src;
+    img.alt = '';
+    box.append(img);
+  });
+}
+
+// Fassung 5: Top-Angebote auf der Startseite. Groesste Ersparnis zuerst, abwechselnd aus den Kategorien,
+// damit nicht nur Fraktion oben steht. Angezeigt wird in derselben Reihenfolge wie in den Kategorien.
+function topAngebote(anzahl) {
+  const spar = (x) => altpreis(x.p) - preis(x.p);
+  const toepfe = new Map();
+  for (const x of salePakete().sort((a, b) => spar(b) - spar(a))) {
+    if (!toepfe.has(x.k.id)) toepfe.set(x.k.id, []);
+    toepfe.get(x.k.id).push(x);
+  }
+  const listen = [...toepfe.values()];
+  const aus = [];
+  while (aus.length < anzahl && listen.some((t) => t.length)) {
+    for (const t of listen) if (t.length && aus.length < anzahl) aus.push(t.shift());
+  }
+  return aus.map((x) => x.p).sort((a, b) => paketRang(a) - paketRang(b) || preis(a) - preis(b));
+}
+
+function angeboteBauen() {
+  const liste = topAngebote(4);
+  $('angebote').hidden = !liste.length;
+  const box = $('angebote-liste');
+  box.textContent = '';
+  if (!liste.length) return;
+  $('angebote-mehr').href = '#kat-' + salePakete()[0].k.id;
+  for (const p of liste) box.append(paketKarte(p, true));
 }
 
 function beliebtBauen() {
@@ -253,65 +320,98 @@ function beliebtBauen() {
   preisSetzen($('beliebt-preis'), p);
 }
 
+// Fassung 5: Paket als Karte (grosses Bild, Name, Preisblock, Knopf). Fuer Kategorien und Top-Angebote.
+// Bild und Name oeffnen die Details; das Bild ist nur fuer die Maus, per Tastatur geht es ueber den Namen.
+function paketKarte(p, mitKategorie) {
+  const karte = document.createElement('article');
+  karte.className = 'paket';
+
+  const bild = document.createElement('button');
+  bild.type = 'button';
+  bild.className = 'paket-bild';
+  bild.tabIndex = -1;
+  bild.setAttribute('aria-hidden', 'true');
+  bild.addEventListener('click', () => detailsOeffnen(p));
+  const img = document.createElement('img');
+  img.src = p.image || 'bilder/kokosnuss.webp';
+  img.alt = '';
+  img.loading = 'lazy';
+  img.width = img.height = 400;
+  bild.append(img);
+  if (altpreis(p)) {
+    karte.classList.add('im-sale');
+    const ecke = document.createElement('span');
+    ecke.className = 'rabatt-ecke';
+    ecke.textContent = '−' + prozent(p) + ' %';
+    bild.append(ecke);
+  }
+
+  const text = document.createElement('div');
+  text.className = 'paket-text';
+  if (mitKategorie && p.category && p.category.name) {
+    const kat = document.createElement('span');
+    kat.className = 'paket-kat';
+    kat.textContent = p.category.name;
+    text.append(kat);
+  }
+  const name = document.createElement('button');
+  name.type = 'button';
+  name.className = 'paket-name';
+  name.textContent = p.name;
+  name.title = 'Details ansehen';
+  name.addEventListener('click', () => detailsOeffnen(p));
+  text.append(name);
+
+  const pr = document.createElement('span');
+  pr.className = 'preis';
+  preisSetzen(pr, p);
+
+  const kaufen = document.createElement('button');
+  kaufen.type = 'button';
+  kaufen.className = 'knopf';
+  kaufen.textContent = altpreis(p) ? 'Jetzt sichern' : 'In den Warenkorb';
+  kaufen.addEventListener('click', () => beschaeftigt(kaufen, () => hinzu(p.id)));
+
+  karte.append(bild, text, pr, kaufen);
+  return karte;
+}
+
 function kategorieZeigen(k) {
   saleBannerBauen('sale-kat', k);
+  $('kat-titel').textContent = k.name;
+  $('kat-bild').src = kategorieBild(k);
+  $('kat-anzahl').textContent = k.packages.length + (k.packages.length === 1 ? ' Paket' : ' Pakete');
   $('kat-text').innerHTML = sauber(k.description) || '';
   $('kat-text').hidden = !k.description;
   const box = $('pakete');
   box.textContent = '';
   const liste = [...k.packages].sort((a, b) => paketRang(a) - paketRang(b) || preis(a) - preis(b));
-  for (const p of liste) {
-    const zeile = document.createElement('div');
-    zeile.className = 'paket';
-
-    const img = document.createElement('img');
-    img.src = p.image || 'bilder/kokosnuss.webp';
-    img.alt = '';
-    img.loading = 'lazy';
-    const bild = document.createElement('div');
-    bild.className = 'paket-bild';
-    bild.append(img);
-    if (altpreis(p)) {
-      zeile.classList.add('im-sale');
-      const ecke = document.createElement('span');
-      ecke.className = 'rabatt-ecke';
-      ecke.textContent = '−' + prozent(p) + ' %';
-      bild.append(ecke);
-    }
-
-    const name = document.createElement('button');
-    name.type = 'button';
-    name.className = 'paket-name';
-    name.textContent = p.name;
-    name.title = 'Details ansehen';
-    name.addEventListener('click', () => detailsOeffnen(p));
-
-    const pr = document.createElement('span');
-    pr.className = 'preis';
-    preisSetzen(pr, p);
-
-    const kaufen = document.createElement('button');
-    kaufen.type = 'button';
-    kaufen.className = 'knopf';
-    kaufen.textContent = altpreis(p) ? 'Jetzt sichern' : 'In den Warenkorb';
-    kaufen.addEventListener('click', () => beschaeftigt(kaufen, () => hinzu(p.id)));
-
-    zeile.append(bild, name, pr, kaufen);
-    box.append(zeile);
-  }
+  for (const p of liste) box.append(paketKarte(p));
 }
 
 function detailsOeffnen(p) {
   detailPaket = p;
   $('details-titel').textContent = p.name;
+  $('details-kat').textContent = (p.category && p.category.name) || '';
+  $('details-kaufen').textContent = altpreis(p) ? 'Jetzt sichern' : 'In den Warenkorb';
+  // Fassung 5: Bild links in eigener Spalte, Text rechts
+  const bild = $('details-bild');
+  bild.textContent = '';
+  const rahmen = document.createElement('span');
+  rahmen.className = 'dialog-bild-rahmen';
+  const img = document.createElement('img');
+  img.src = p.image || 'bilder/kokosnuss.webp';
+  img.alt = '';
+  rahmen.append(img);
+  if (altpreis(p)) {
+    const ecke = document.createElement('span');
+    ecke.className = 'rabatt-ecke';
+    ecke.textContent = '−' + prozent(p) + ' %';
+    rahmen.append(ecke);
+  }
+  bild.append(rahmen);
   const inhalt = $('details-inhalt');
   inhalt.innerHTML = '';
-  if (p.image) {
-    const img = document.createElement('img');
-    img.src = p.image;
-    img.alt = '';
-    inhalt.append(img);
-  }
   const text = document.createElement('div');
   text.innerHTML = sauber(p.description);
   inhalt.append(text);
@@ -320,7 +420,8 @@ function detailsOeffnen(p) {
 }
 
 // ---------- Community-Ziel und letzte Kaeufe ----------
-const FARBEN = ['#7b3fbf', '#4b5563', '#e5553b', '#0f8f7a', '#3b6fd6', '#b8408f', '#8a6d1f', '#2f7d32'];
+// Fassung 5: nur Markenfarben (vorher waren Grau, Gruen und ein Braun-Gold dabei)
+const FARBEN = ['#ff3d7f', '#a74dff', '#e62ad6', '#ff8a3d', '#7b3fbf', '#c13bd8', '#ff2e97', '#8f45ff'];
 
 function wann(iso) {
   const d = new Date(iso);
@@ -459,7 +560,14 @@ function korbZeigen() {
     const menge = (p.in_basket && p.in_basket.quantity) || 1;
     const einzel = (p.in_basket && p.in_basket.price) ?? preis(p);
     const li = document.createElement('li');
+    // Fassung 5: kleines Paketbild vorne
+    const bild = document.createElement('img');
+    bild.className = 'korb-bild';
+    bild.alt = '';
+    const katalog = paketFinden(p.id);
+    bild.src = p.image || (katalog && katalog.image) || 'bilder/kokosnuss.webp';
     const name = document.createElement('span');
+    name.className = 'korb-name';
     name.textContent = (menge > 1 ? menge + '× ' : '') + p.name;
     const pr = document.createElement('span');
     pr.className = 'preis';
@@ -469,7 +577,7 @@ function korbZeigen() {
     weg.textContent = '✕';
     weg.setAttribute('aria-label', p.name + ' entfernen');
     weg.addEventListener('click', () => beschaeftigt(weg, () => entfernen(p.id)));
-    li.append(name, pr, weg);
+    li.append(bild, name, pr, weg);
     liste.append(li);
   }
   const voll = pakete.length > 0;
@@ -530,6 +638,8 @@ window.addEventListener('hashchange', () => { zeigen(); $('inhalt').focus({ prev
     await Promise.all([katalogLaden(), korbLaden()]);
     menueBauen();
     symboleBauen();
+    buehneBauen();
+    angeboteBauen();
     beliebtBauen();
     saleBannerBauen('sale-start', null);
     zeigen();

@@ -10,10 +10,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=202610280625">
+<link rel="stylesheet" href="style.css?v=202610281525">
 </head>
 <body>
-<div class="hintergrund" aria-hidden="true"></div>
+<div class="hintergrund" aria-hidden="true"><span class="koernung"></span></div>
 
 <header class="leiste">
   <div class="leiste-innen">
@@ -25,12 +25,11 @@
       <a href="https://discord.gg/sincity-rp" target="_blank" rel="noopener">Discord</a>
     </nav>
     <div class="konto">
-    <button class="login" id="login" type="button">Login</button>
-    <span class="angemeldet" id="angemeldet" hidden>
-      <span id="angemeldet-name"></span>
-      <button class="login klein" id="abmelden" type="button">Abmelden</button>
-    </span>
-  
+      <button class="login" id="login" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0"/></svg>Login</button>
+      <span class="angemeldet" id="angemeldet" hidden>
+        <span class="angemeldet-name" id="angemeldet-name"></span>
+        <button class="login klein" id="abmelden" type="button">Abmelden</button>
+      </span>
       <button class="korb-knopf" id="korb-knopf" type="button" aria-label="Warenkorb öffnen" aria-controls="schublade"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.4l2.3 10.6a1.6 1.6 0 0 0 1.6 1.3h8.1a1.6 1.6 0 0 0 1.6-1.2L21 8H6.4"/><circle cx="9.6" cy="19.6" r="1.4"/><circle cx="17.2" cy="19.6" r="1.4"/></svg><span class="korb-zahl" id="korb-zahl" hidden>0</span></button>
     </div>
   </div>
@@ -40,121 +39,210 @@
 
 <main class="inhalt" id="inhalt" tabindex="-1">
   <section id="ansicht-start">
-    <div class="sale-banner start" id="sale-start" hidden></div>
+
+    <!-- Fassung 5: Buehne mit Foto, Schriftzug und Sale-Karte (Countdown) im Milchglas -->
     <div class="buehne">
-      <div class="held-text"><img class="buehne-logo" src="bilder/schriftzug.webp" alt="Sin City Roleplay" width="1000" height="364">
-        <p class="held-ueber">Offizieller Shop</p>
-        <h1>Willkommen in Sin&nbsp;City</h1>
-        <p>Coins, VIP und Extras für deinen Account. Sicher bezahlt über Tebex, automatisch im Spiel.</p>
+      <div class="buehne-text">
+        <p class="held-ueber"><span class="punkt" aria-hidden="true"></span>Offizieller Shop</p>
+        <img class="buehne-logo" src="bilder/schriftzug.webp" alt="Sin City Roleplay" width="1000" height="364">
+        <h1>Dein Upgrade für <span class="verlauf-text">Sin&nbsp;City</span></h1>
+        <p class="buehne-unter">Coins, VIP und Extras für deinen Account. Sicher bezahlt über Tebex, direkt im Spiel einlösbar.</p>
         <div class="held-knoepfe">
-          <a class="knopf" href="#kat-3479336">Coins ansehen</a>
-          <a class="knopf leise" href="#hilfe">So funktioniert's</a>
+          <a class="knopf gross" href="#kat-3479336">Coins ansehen<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="knopf glasknopf gross" href="#hilfe">So funktioniert's</a>
         </div>
       </div>
-      <section class="kasten widget beliebt" id="beliebt" aria-labelledby="beliebt-titel" hidden>
-      <h2 class="widget-titel" id="beliebt-titel">Beliebt</h2>
-      <button class="beliebt-bild" id="beliebt-bild" type="button" aria-label="Details ansehen"><img id="beliebt-img" src="" alt=""></button>
-      <p class="beliebt-name" id="beliebt-name"></p>
-      <p class="beliebt-preis" id="beliebt-preis"></p>
-      <button class="knopf voll" id="beliebt-kaufen" type="button">In den Warenkorb</button>
-    </section>
-    </div>
-    <h2 class="abschnitt">Kategorien</h2>
-    <nav class="symbole" id="symbole" aria-label="Kategorien"></nav>
-    <div class="streifen">
-      <section class="kasten widget ziel" id="ziel" aria-labelledby="ziel-titel">
-      <h2 class="widget-titel" id="ziel-titel">Community-Ziel</h2>
-      <img class="ziel-bild" id="ziel-bild" src="bilder/kokosnuss.webp" alt="">
-      <p class="ziel-name" id="ziel-name"></p>
-      <div class="ziel-balken" role="progressbar" aria-labelledby="ziel-name" aria-valuemin="0" aria-valuemax="100" id="ziel-balken"><span id="ziel-fuellung"></span></div>
-      <p class="ziel-prozent" id="ziel-prozent"></p>
-    </section>
-      <section class="kasten widget gekauft" id="gekauft" aria-labelledby="gekauft-titel">
-      <h2 class="widget-titel" id="gekauft-titel">Kürzlich gekauft</h2>
-      <ul class="gekauft-liste" id="gekauft-liste"></ul>
-    </section>
-    </div>
-    <div class="kasten text mittig">
-      <p><strong>Willkommen auf <span class="marke">Sin City Roleplay</span>!</strong></p>
-      <p>Hier bekommst du <strong>Coins</strong> und <strong>Extras</strong> für deinen Account.</p>
-      <p>Mit deiner Unterstützung decken wir die Serverkosten und bringen regelmäßig neue Skripte, Maps und Events.</p>
-      <p>Uns liegt am Herzen, dass alles freiwillig bleibt: Niemand wird benachteiligt, nur weil er nichts kauft.</p>
-      <p class="abstand"><strong>SIN CITY ROLEPLAY</strong> IS NOT APPROVED, SPONSORED, OR ENDORSED BY ROCKSTAR GAMES.</p>
-      <p><strong>SIN CITY ROLEPLAY</strong> IST NICHT VON ROCKSTAR GAMES GENEHMIGT, GESPONSERT ODER UNTERSTÜTZT.</p>
-      <div class="links-text">
-        <h2>Rückgabebedingungen</h2>
-        <p>Alle Pakete sind digitale Inhalte und werden direkt nach der Zahlung bereitgestellt. Mit dem Kauf stimmst du zu, dass die Lieferung sofort beginnt, dein Widerrufsrecht erlischt damit.</p>
-        <p>Nach dem Kauf löst du deine Transaktions-ID sofort im Spiel ein, wie das geht, steht unter <a href="#hilfe">Hilfe</a>. Gibt es ein Problem, öffne mit deinem Kaufnachweis ein Ticket in unserem Discord, wir kümmern uns so schnell wie möglich darum.</p>
+      <div class="buehne-schau">
+        <div class="schau-bilder" id="buehne-bilder" aria-hidden="true"></div>
+        <div class="sale-banner start" id="sale-start" hidden></div>
       </div>
+    </div>
+
+    <ul class="vertrauen" aria-label="Darum bei uns kaufen">
+      <li><span class="v-symbol"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg></span><span><strong>Direkt im Spiel</strong><small>Transaktions-ID mit F4 einlösen</small></span></li>
+      <li><span class="v-symbol"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v6c0 4.2 2.9 7.7 7 9 4.1-1.3 7-4.8 7-9V6l-7-3z"/><path d="m9 12 2 2 4-4"/></svg></span><span><strong>Sicher bezahlen</strong><small>Checkout über Tebex, PayPal und Karte</small></span></li>
+      <li><span class="v-symbol"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 20 12z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg></span><span><strong>Support im Discord</strong><small>Ticket öffnen, wir helfen schnell</small></span></li>
+      <li><span class="v-symbol"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/></svg></span><span><strong>Fair für alle</strong><small>Alles freiwillig, niemand wird benachteiligt</small></span></li>
+    </ul>
+
+    <section class="block" id="angebote" aria-labelledby="angebote-titel" hidden>
+      <div class="abschnitt-kopf">
+        <div>
+          <p class="kicker">Launch-Wochen</p>
+          <h2 class="abschnitt" id="angebote-titel">Top-Angebote</h2>
+        </div>
+        <a class="mehr" id="angebote-mehr" href="#start">Alle Angebote<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="pakete" id="angebote-liste"></div>
+    </section>
+
+    <section class="block" aria-labelledby="kategorien-titel">
+      <div class="abschnitt-kopf">
+        <div>
+          <p class="kicker">Alles im Shop</p>
+          <h2 class="abschnitt" id="kategorien-titel">Kategorien</h2>
+        </div>
+      </div>
+      <nav class="symbole" id="symbole" aria-label="Kategorien"></nav>
+    </section>
+
+    <section class="block" aria-labelledby="community-titel">
+      <div class="abschnitt-kopf">
+        <div>
+          <p class="kicker">Community</p>
+          <h2 class="abschnitt" id="community-titel">Was gerade läuft</h2>
+        </div>
+      </div>
+      <div class="streifen">
+        <section class="kasten widget beliebt" id="beliebt" aria-labelledby="beliebt-titel" hidden>
+          <button class="beliebt-bild" id="beliebt-bild" type="button" aria-label="Details ansehen"><img id="beliebt-img" src="" alt=""></button>
+          <div class="beliebt-text">
+            <h3 class="widget-titel" id="beliebt-titel">Beliebt</h3>
+            <p class="beliebt-name" id="beliebt-name"></p>
+            <p class="beliebt-preis" id="beliebt-preis"></p>
+            <button class="knopf voll" id="beliebt-kaufen" type="button">In den Warenkorb</button>
+          </div>
+        </section>
+        <section class="kasten widget ziel" id="ziel" aria-labelledby="ziel-titel">
+          <h3 class="widget-titel" id="ziel-titel">Community-Ziel</h3>
+          <div class="ziel-zeile">
+            <img class="ziel-bild" id="ziel-bild" src="bilder/kokosnuss.webp" alt="">
+            <div class="ziel-werte">
+              <p class="ziel-name" id="ziel-name"></p>
+              <div class="ziel-balken" role="progressbar" aria-labelledby="ziel-name" aria-valuemin="0" aria-valuemax="100" id="ziel-balken"><span id="ziel-fuellung"></span></div>
+              <p class="ziel-prozent" id="ziel-prozent"></p>
+            </div>
+          </div>
+        </section>
+        <section class="kasten widget gekauft" id="gekauft" aria-labelledby="gekauft-titel">
+          <h3 class="widget-titel" id="gekauft-titel">Kürzlich gekauft</h3>
+          <ul class="gekauft-liste" id="gekauft-liste"></ul>
+        </section>
+      </div>
+    </section>
+
+    <section class="kasten info" aria-labelledby="info-titel">
+      <div class="info-spalten">
+        <div>
+          <h2 id="info-titel">Willkommen auf <span class="marke">Sin City Roleplay</span>!</h2>
+          <p>Hier bekommst du <strong>Coins</strong> und <strong>Extras</strong> für deinen Account.</p>
+          <p>Mit deiner Unterstützung decken wir die Serverkosten und bringen regelmäßig neue Skripte, Maps und Events.</p>
+          <p>Uns liegt am Herzen, dass alles freiwillig bleibt: Niemand wird benachteiligt, nur weil er nichts kauft.</p>
+        </div>
+        <div class="links-text">
+          <h2>Rückgabebedingungen</h2>
+          <p>Alle Pakete sind digitale Inhalte und werden direkt nach der Zahlung bereitgestellt. Mit dem Kauf stimmst du zu, dass die Lieferung sofort beginnt, dein Widerrufsrecht erlischt damit.</p>
+          <p>Nach dem Kauf löst du deine Transaktions-ID sofort im Spiel ein, wie das geht, steht unter <a href="#hilfe">Hilfe</a>. Gibt es ein Problem, öffne mit deinem Kaufnachweis ein Ticket in unserem Discord, wir kümmern uns so schnell wie möglich darum.</p>
+        </div>
+      </div>
+      <div class="rockstar">
+        <p><strong>SIN CITY ROLEPLAY</strong> IS NOT APPROVED, SPONSORED, OR ENDORSED BY ROCKSTAR GAMES.</p>
+        <p><strong>SIN CITY ROLEPLAY</strong> IST NICHT VON ROCKSTAR GAMES GENEHMIGT, GESPONSERT ODER UNTERSTÜTZT.</p>
+      </div>
+    </section>
   </section>
 
   <section id="ansicht-kategorie" hidden>
-      <div class="sale-banner" id="sale-kat" hidden></div>
-      <div class="kasten text kat-text" id="kat-text"></div>
-      <div class="pakete" id="pakete"></div>
-    </section>
+    <header class="kasten kat-kopf">
+      <img class="kat-bild" id="kat-bild" src="bilder/kokosnuss.webp" alt="">
+      <div class="kat-kopf-text">
+        <a class="zurueck" href="#start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Alle Kategorien</a>
+        <h1 id="kat-titel"></h1>
+        <div class="kat-text" id="kat-text"></div>
+        <p class="kat-anzahl" id="kat-anzahl"></p>
+      </div>
+    </header>
+    <div class="sale-banner" id="sale-kat" hidden></div>
+    <div class="pakete" id="pakete"></div>
+  </section>
 
-  <section class="kasten text" id="ansicht-hilfe" hidden>
-      <h1>Hilfe</h1>
-      <h2>Wie kaufe ich?</h2>
-      <p>Klick bei einem Paket auf „In den Warenkorb“. Beim ersten Mal meldest du dich einmal mit deinem FiveM-Konto (Cfx.re) an, damit der Kauf deinem Account zugeordnet wird. Danach geht es über „Zur Kasse“ zum Bezahlen bei Tebex.</p>
-      <h2>Wie bekomme ich meine Coins?</h2>
-      <p>Nach dem Kauf schickt dir Tebex eine E-Mail mit deiner Transaktions-ID (tbx-…).</p>
-      <ul>
-        <li><strong>Coins:</strong> im Spiel F4 drücken, links „Code einlösen“ wählen, die ID eintragen und auf „Nutzen“ klicken.</li>
-        <li><strong>Charakter-Slot:</strong> bei der Charakterauswahl auf den gesperrten Slot klicken und die ID eintragen.</li>
-      </ul>
-      <p>Du musst beim Kauf nicht online sein. Es kann bis zu 5 Minuten dauern, bis die ID einlösbar ist.</p>
-      <h2>Was ist ein Creator-Code?</h2>
-      <p>Mit dem Code eines Content Creators unterstützt du ihn bei deinem Kauf. Für dich ändert sich am Preis nichts.</p>
-      <h2>Es hat nicht geklappt</h2>
-      <p>Öffne im Discord ein Ticket und halte deine Transaktions-ID bereit.</p>
-      <a class="knopf" href="https://discord.gg/sincity-rp" target="_blank" rel="noopener">Zum Discord</a>
-    </section>
+  <section class="kasten text hilfe" id="ansicht-hilfe" hidden>
+    <p class="kicker">Fragen und Antworten</p>
+    <h1>Hilfe</h1>
+    <h2>Wie kaufe ich?</h2>
+    <p>Klick bei einem Paket auf „In den Warenkorb“. Beim ersten Mal meldest du dich einmal mit deinem FiveM-Konto (Cfx.re) an, damit der Kauf deinem Account zugeordnet wird. Danach geht es über „Zur Kasse“ zum Bezahlen bei Tebex.</p>
+    <h2>Wie bekomme ich meine Coins?</h2>
+    <p>Nach dem Kauf schickt dir Tebex eine E-Mail mit deiner Transaktions-ID (tbx-…).</p>
+    <ul>
+      <li><strong>Coins:</strong> im Spiel F4 drücken, links „Code einlösen“ wählen, die ID eintragen und auf „Nutzen“ klicken.</li>
+      <li><strong>Charakter-Slot:</strong> bei der Charakterauswahl auf den gesperrten Slot klicken und die ID eintragen.</li>
+    </ul>
+    <p>Du musst beim Kauf nicht online sein. Es kann bis zu 5 Minuten dauern, bis die ID einlösbar ist.</p>
+    <h2>Was ist ein Creator-Code?</h2>
+    <p>Mit dem Code eines Content Creators unterstützt du ihn bei deinem Kauf. Für dich ändert sich am Preis nichts.</p>
+    <h2>Es hat nicht geklappt</h2>
+    <p>Öffne im Discord ein Ticket und halte deine Transaktions-ID bereit.</p>
+    <a class="knopf" href="https://discord.gg/sincity-rp" target="_blank" rel="noopener">Zum Discord</a>
+  </section>
 
   <p class="laden" id="laden">Shop wird geladen …</p>
 </main>
 
 <aside class="schublade" id="schublade" aria-label="Warenkorb" aria-hidden="true">
-  <div class="schublade-kopf"><h2 id="korb-titel">Warenkorb</h2><button class="knopf leise schliessen" id="schublade-zu" type="button" aria-label="Warenkorb schließen">✕</button></div>
+  <div class="schublade-kopf"><h2 id="korb-titel">Warenkorb</h2><button class="knopf glasknopf schliessen" id="schublade-zu" type="button" aria-label="Warenkorb schließen">✕</button></div>
   <section class="korb" aria-labelledby="korb-titel">
     <ul class="korb-liste" id="korb-liste"></ul>
-      <p class="korb-leer" id="korb-leer">Noch leer.</p>
+    <div class="korb-leer" id="korb-leer">
+      <img src="bilder/kokosnuss.webp" alt="" width="72" height="72">
+      <p><strong>Noch leer.</strong> Such dir ein Paket aus, es landet dann hier.</p>
+      <a class="knopf glasknopf" href="#kat-3479336">Coins ansehen</a>
+    </div>
+    <div class="korb-fuss">
       <div class="korb-summe" id="korb-summe" hidden><span>Gesamt</span><strong id="korb-betrag"></strong></div>
       <form class="korb-code" id="creator-form" hidden>
         <label for="creator-code">Creator-Code</label>
         <div><input id="creator-code" name="code" autocomplete="off" placeholder="Code eingeben"><button class="knopf zweit" type="submit">OK</button></div>
       </form>
-      <button class="knopf voll" id="zur-kasse" type="button" hidden>Zur Kasse</button>
+      <button class="knopf voll gross" id="zur-kasse" type="button" hidden>Zur Kasse</button>
+      <p class="korb-sicher"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Sicher bezahlen über Tebex</p>
+      <ul class="zahlarten klein" aria-label="Zahlarten">
+        <li><img src="bilder/zahlung/k_paypal.svg" alt="PayPal" width="40" height="25"></li>
+        <li><img src="bilder/zahlung/k_applepay.svg" alt="Apple Pay" width="40" height="25"></li>
+        <li><img src="bilder/zahlung/k_googlepay.svg" alt="Google Pay" width="40" height="25"></li>
+        <li><img src="bilder/zahlung/k_mastercard.svg" alt="Mastercard" width="40" height="25"></li>
+        <li><img src="bilder/zahlung/k_visa.svg" alt="Visa" width="40" height="25"></li>
+      </ul>
+    </div>
   </section>
 </aside>
 <div class="schleier" id="schleier" hidden></div>
 
 <dialog class="dialog" id="details" aria-labelledby="details-titel">
+  <div class="dialog-bild" id="details-bild"></div>
   <div class="dialog-kopf">
-    <h2 id="details-titel"></h2>
-    <button class="knopf leise schliessen" type="button" data-schliessen aria-label="Schließen">✕</button>
+    <div>
+      <p class="kicker" id="details-kat"></p>
+      <h2 id="details-titel"></h2>
+    </div>
+    <button class="knopf glasknopf schliessen" type="button" data-schliessen aria-label="Schließen">✕</button>
   </div>
   <div class="dialog-inhalt" id="details-inhalt"></div>
   <div class="dialog-fuss">
     <strong id="details-preis"></strong>
-    <button class="knopf" type="button" id="details-kaufen">In den Warenkorb</button>
+    <button class="knopf gross" type="button" id="details-kaufen">In den Warenkorb</button>
   </div>
 </dialog>
 
 <footer class="fuss">
-  <div class="fuss-zeile">
-    <p>© 2026 SinCity RP. All Rights Reserved. We do not have affiliation with any real world brands.</p>
-    <ul class="zahlarten" aria-label="Zahlarten">
-      <li><img src="bilder/zahlung/k_paypal.svg" alt="PayPal" width="48" height="30"></li>
-      <li><img src="bilder/zahlung/k_applepay.svg" alt="Apple Pay" width="48" height="30"></li>
-      <li><img src="bilder/zahlung/k_googlepay.svg" alt="Google Pay" width="48" height="30"></li>
-      <li><img src="bilder/zahlung/k_mastercard.svg" alt="Mastercard" width="48" height="30"></li>
-      <li><img src="bilder/zahlung/k_visa.svg" alt="Visa" width="48" height="30"></li>
-      <li><img src="bilder/zahlung/k_amex.svg" alt="American Express" width="30" height="30"></li>
-    </ul>
+  <div class="fuss-innen">
+    <div class="fuss-marke">
+      <a class="leiste-logo" href="#start"><img src="bilder/kokosnuss.webp" alt="" width="36" height="36"><span>SinCity <b>Shop</b></span></a>
+      <p>Coins, VIP und Extras für Sin City Roleplay.</p>
+      <a class="fuss-discord" href="https://discord.gg/sincity-rp" target="_blank" rel="noopener">discord.gg/sincity-rp</a>
+    </div>
+    <div class="fuss-zahlung">
+      <p>Sicher bezahlen mit</p>
+      <ul class="zahlarten" aria-label="Zahlarten">
+        <li><img src="bilder/zahlung/k_paypal.svg" alt="PayPal" width="48" height="30"></li>
+        <li><img src="bilder/zahlung/k_applepay.svg" alt="Apple Pay" width="48" height="30"></li>
+        <li><img src="bilder/zahlung/k_googlepay.svg" alt="Google Pay" width="48" height="30"></li>
+        <li><img src="bilder/zahlung/k_mastercard.svg" alt="Mastercard" width="48" height="30"></li>
+        <li><img src="bilder/zahlung/k_visa.svg" alt="Visa" width="48" height="30"></li>
+        <li><img src="bilder/zahlung/k_amex.svg" alt="American Express" width="30" height="30"></li>
+      </ul>
+    </div>
   </div>
-  <div class="fuss-zeile klein">
+  <div class="fuss-zeile">
     <a class="tebex-logo" href="https://www.tebex.io/" target="_blank" rel="noopener"><img src="bilder/zahlung/tebex.svg" alt="Tebex" width="48" height="25"></a>
     <p class="tebex-text">This website's checkout process is owned &amp; operated by Tebex Limited, who handle product fulfilment, billing support and refunds.</p>
     <nav aria-label="Rechtliches">
@@ -164,22 +252,27 @@
       <a href="https://checkout.tebex.io/privacy" target="_blank" rel="noopener">Privacy Policy</a>
     </nav>
   </div>
+  <p class="fuss-copy">© 2026 SinCity RP. All Rights Reserved. We do not have affiliation with any real world brands.</p>
 </footer>
 
-<script src="app.js?v=202610280625"></script>
+<script src="app.js?v=202610281525"></script>
 <script>
-// Fassung 4: Warenkorb als Schublade. Zaehler am Knopf, beim Hinzufuegen geht sie kurz auf.
+// Fassung 4/5: Warenkorb als Schublade. Zaehler am Knopf, beim Hinzufuegen geht sie kurz auf.
 (function () {
   var s = document.getElementById('schublade'), schleier = document.getElementById('schleier');
   var liste = document.getElementById('korb-liste'), zahl = document.getElementById('korb-zahl');
   function auf(an) {
     s.classList.toggle('offen', an); schleier.hidden = !an; s.setAttribute('aria-hidden', an ? 'false' : 'true');
+    s.inert = !an;
     document.getElementById('korb-knopf').setAttribute('aria-expanded', an ? 'true' : 'false');
   }
+  s.inert = true;
   document.getElementById('korb-knopf').addEventListener('click', function () { auf(!s.classList.contains('offen')); });
   document.getElementById('schublade-zu').addEventListener('click', function () { auf(false); });
   schleier.addEventListener('click', function () { auf(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && s.classList.contains('offen')) auf(false); });
+  // Fassung 5: Link im leeren Korb fuehrt zu einer Kategorie, dann geht die Schublade zu
+  window.addEventListener('hashchange', function () { auf(false); });
   var vorher = 0;
   function zaehlen() {
     var n = liste.children.length;
