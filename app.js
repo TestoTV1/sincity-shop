@@ -185,7 +185,7 @@ const PAKET_REIHENFOLGE = [
   'Fraktions-Kleidung S', 'Fraktions-Kleidung XL', 'Custom-Livery', 'Fuhrpark +5', 'Custom-Fahrzeug',
   'VIP 30 Tage', 'VIP 90 Tage', 'Starter-Bundle: VIP 30 Tage + 110 Coins', 'Boss-Bundle: VIP 30 Tage + 650 Coins',
   'Zusätzlicher Charakter-Slot', 'Charakter-Transfer', 'Wunschkennzeichen', 'Wunschnummer', 'Namensänderung',
-  'Fahrzeug-Ummeldung', 'Privat-Kleidung',
+  'Fahrzeug-Ummeldung', 'Privat-Kleidung', 'Privat-Fahrzeug',
 ];
 function paketRang(p) {
   const i = PAKET_REIHENFOLGE.indexOf(p.name);
