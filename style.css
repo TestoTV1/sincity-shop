@@ -633,3 +633,8 @@ a { color: inherit; }
   .buehne-logo { width: 220px; }
   .streifen .gekauft-liste { grid-template-columns: 1fr; }
 }
+
+/* 28.10.2026: Sale (Launch-Wochen) - alter Preis durchgestrichen, Prozent-Chip im Marken-Verlauf */
+.altpreis { color: rgba(255, 255, 255, .5); font-weight: 500; font-size: .8em; margin-right: 2px; }
+.rabatt { display: inline-block; vertical-align: middle; margin-left: 4px; padding: 2px 7px; border-radius: 6px; font-size: 12px; font-weight: 800;
+  color: #fff; background: linear-gradient(90deg, #ff8a3d 0%, #ff3d7f 42%, #e62ad6 72%, #a74dff 100%); letter-spacing: .02em; }

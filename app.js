@@ -69,6 +69,30 @@ function preis(p) {
   return p.total_price ?? p.base_price ?? 0;
 }
 
+// 28.10.2026: Bei einem Tebex-Sale ist preis() schon reduziert. discount ist der Nachlass ohne Steuer, der alte Preis
+// steht im selben Verhaeltnis zum neuen wie (base_price + discount) zu base_price.
+function altpreis(p) {
+  if (!(p.discount > 0) || !(p.base_price > 0)) return null;
+  return preis(p) * (p.base_price + p.discount) / p.base_price;
+}
+
+// Preis in ein Element schreiben, bei Rabatt mit durchgestrichenem Normalpreis und Prozent-Chip
+function preisSetzen(el, p) {
+  el.textContent = '';
+  const alt = altpreis(p);
+  if (alt) {
+    const s = document.createElement('s');
+    s.className = 'altpreis';
+    s.textContent = euro(alt);
+    const chip = document.createElement('span');
+    chip.className = 'rabatt';
+    chip.textContent = '−' + Math.round((1 - preis(p) / alt) * 100) + ' %';
+    el.append(s, ' ', euro(preis(p)), ' ', chip);
+  } else {
+    el.textContent = euro(preis(p));
+  }
+}
+
 async function beschaeftigt(knopf, arbeit) {
   if (knopf) knopf.disabled = true;
   try { await arbeit(); }
@@ -130,7 +154,7 @@ function beliebtBauen() {
   if (!p) return;
   $('beliebt-img').src = p.image || 'bilder/kokosnuss.webp';
   $('beliebt-name').textContent = p.name;
-  $('beliebt-preis').textContent = euro(preis(p));
+  preisSetzen($('beliebt-preis'), p);
 }
 
 function kategorieZeigen(k) {
@@ -156,7 +180,7 @@ function kategorieZeigen(k) {
 
     const pr = document.createElement('span');
     pr.className = 'preis';
-    pr.textContent = euro(preis(p));
+    preisSetzen(pr, p);
 
     const kaufen = document.createElement('button');
     kaufen.type = 'button';
@@ -183,7 +207,7 @@ function detailsOeffnen(p) {
   const text = document.createElement('div');
   text.innerHTML = sauber(p.description);
   inhalt.append(text);
-  $('details-preis').textContent = euro(preis(p));
+  preisSetzen($('details-preis'), p);
   $('details').showModal();
 }
 
